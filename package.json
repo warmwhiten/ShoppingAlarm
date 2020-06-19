@@ -8,7 +8,7 @@
     "eject": "expo eject"
   },
   "dependencies": {
-    "expo": "~37.0.3",
+    "expo": "^37.0.12",
     "expo-location": "~8.1.0",
     "react": "~16.9.0",
     "react-dom": "~16.9.0",
@@ -17,8 +17,8 @@
     "react-native-web": "~0.11.7"
   },
   "devDependencies": {
-    "babel-preset-expo": "~8.1.0",
-    "@babel/core": "^7.8.6"
+    "@babel/core": "^7.8.6",
+    "babel-preset-expo": "~8.1.0"
   },
   "private": true
 }
