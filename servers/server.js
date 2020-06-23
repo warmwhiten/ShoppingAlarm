@@ -1,30 +1,33 @@
-const puppeteer = require('puppeteer');
+const express = require('express')
+const app = express()
+const port = 3000
+const mongoose = require('mongoose')
+const bodyParser = require('body-parser')
+const config = require('./config/dev');
+const {User} = require("./models/User")
 
-var soldout = new Array();
+app.use(bodyParser.urlencoded({extended: true}));
 
-(async () => {
-    const browser = await puppeteer.launch({
-        headless : false
-      }
-    );
-    const page = await browser.newPage();
+app.use(bodyParser.json());
 
-    await page.goto('http://www.tmon.co.kr/deal/810158162?keyword=%EB%8B%8C%ED%85%90%EB%8F%84+%EC%8A%A4%EC%9C%84%EC%B9%98&tl_area=SALDEAL&tl_ord=1&searchClick=DL%7CND%7CBM&thr=ts');
+mongoose.connect(config.mongoURI, {
+    useNewUrlParser: true, useUnifiedTopology:true, useCreateIndex: true, useFindAndModify: false
+}).then(()=> console.log('conneted'))
+.catch(err => console.log('fail'))
 
-        let data = await page.$eval(
-            ".purchase_selector > li.soldout", element => {
-                return element.textContent;
-            });
-            console.log(data); 
 
-        let test = await page.$eval(
-            ".purchase_selector > li.soldout", element => {
-                return element.textContent;
-            });
-            console.log(test); 
+app.get('/', (req, res) => res.send('Hello'))
+
+app.post('/register', (req, res) => {
+    //회원가입 시 필요한 정보를 client에서 가져오면 데이터베이스에 넣음
     
-   
-  
-    await browser.close();
-  })();
+    const user = new User(req.body)
+    user.save((err, doc) => {
+        if(err) return res.json({success: false, err})
+        return res.status(200).json({
+            success: true
+        })
+    })
+})
 
+app.listen(port, ()=> console.log('exmple app listening on port \${port}'))
