@@ -6,18 +6,68 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const config = require('./config/dev');
 
+const {item} = require ("./models/Item");
 const {auth} = require("./middleware/auth");
 const {User} = require("./models/User");
+const { getItem } = require("./crawling/crawlDaewonshop.js");
+const cron = require("node-cron");
+const Item = require('./models/Item');
+
 
 app.use(bodyParser.urlencoded({extended: true}));
 
 app.use(bodyParser.json());
 app.use(cookieParser());
+
+//DB connect
 mongoose.connect(config.mongoURI, {
     useNewUrlParser: true, useUnifiedTopology:true, useCreateIndex: true, useFindAndModify: false
 }).then(()=> console.log('conneted'))
 .catch(err => console.log('fail'))
 
+//Batch crawling
+async function handleAsync() {
+    const item = await getItem();
+    return item;
+  }
+  
+  cron.schedule("*/2 * * * *", async () => {
+    console.log("running a task every two minutes");
+    var item = await handleAsync();
+    if (item.isSoldout == "입고"){
+        const temp = new Item(item)
+        temp.save((err, doc)=> {
+            if(err) console.log(err)
+        })
+    }
+  });
+
+// 입고 내역 조회
+app.get('/api/items', (req, res)=> {
+    Item.find(function(err, items){
+        if(err) return res.status(500).send({error: 'database failure'});
+        res.json(items);
+    })
+})
+
+// 입고 내역 추가
+app.post('/api/items', function(req, res){
+    var item = new Item();
+    item.title = req.body.title;
+    item.isSoldout = req.body.isSoldout;
+    item.url = req.body.url;
+
+    item.save(function(err){
+        if(err){
+            console.error(err);
+            res.json({result: 0});
+            return;
+        }
+
+        res.json({result: 1});
+
+    });
+});
 
 app.get('/', (req, res) => res.send('Hello'))
 
