@@ -14,6 +14,13 @@ AWS Node.js 서버를 기반(node express사용)으로 한 React-Native 모바�
 X-code 설치가 불가능해 로컬에서 ios 환경을 테스트하지 못했다. 안드로이드로 진행하는 것을 추천한다.
 
 ## 사용방법
+
+screenshot
+![screen](./캡처1.png)
+
+screenshot
+![screen](./캡처2png)
+
 앱을 실행하여 join버튼을 눌러 가입을 진행하고, login을 해 home에 진입한다. home에서는 입고 정보를 순차적으로 확인할 수 있다. settings의 logout을 통해 로그아웃이 가능하다.
 
 
