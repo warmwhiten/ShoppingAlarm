@@ -1,14 +1,13 @@
 import React, {Component} from 'react';
-import axios from 'axios';
+import axios from 'axios'
 import {
     View,
     Text,
-    ListView,
     TouchableOpacity,
     Alert,
     StyleSheet
 } from 'react-native';
-import { StackActions, NavigationActions } from '@react-navigation/native';
+import { StackActions, NavigationActions } from 'react-navigation';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 
 export default class SettingScreen extends Component{
@@ -21,7 +20,7 @@ export default class SettingScreen extends Component{
             "Alert",
             "Are you sure?",
             [
-                {text: 'ok', onPress: this._logout()},
+                {text: 'ok', onPress: this._logout.bind(this)},
                 {text: 'cancel', onPress: () => null},
             ],
             { cancelable: true }
@@ -29,19 +28,19 @@ export default class SettingScreen extends Component{
     }
 
     _logout(){
-        axios.get('http://3.133.45.80:3000/api/users/logout')
-        .then(function (response) {
-        console.log(response);
-         })
-        .catch(function (error) {
-        console.log(error);
-         });
         const resetAction = StackActions.reset({
             index: 0,
             key: null,
             actions: [NavigationActions.navigate({ routeName: 'LoginScreen' })],
         });
         this.props.navigation.dispatch(resetAction);
+        axios.get('http://3.133.45.80:3000/api/users/logout')
+        .then(function (response) {
+        console.log(response);    
+    })
+        .catch(function (error) {
+        console.log(error);
+         });
     }
 
     render(){

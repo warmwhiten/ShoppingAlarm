@@ -8,6 +8,7 @@
 
 import React from 'react';
 import AppStack from './src/screens/index';
+import firebase from 'react-native-firebase';
 
 const App = () => {
   return (

@@ -5,6 +5,8 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const config = require('./config/dev');
+const admin = require('firebase-admin');
+const serviceAccount = require('./shoppingalarmpush-firebase-adminsdk-gmdb8-a2ed9f0601');
 
 const {item} = require ("./models/Item");
 const {auth} = require("./middleware/auth");
@@ -24,6 +26,33 @@ mongoose.connect(config.mongoURI, {
     useNewUrlParser: true, useUnifiedTopology:true, useCreateIndex: true, useFindAndModify: false
 }).then(()=> console.log('conneted'))
 .catch(err => console.log('fail'))
+
+//push notification
+app.get('/:token',function(req,res){
+    const message = {
+        data: {
+          score: '850',
+          time: '2:45'
+        },
+        token: req.params.token,
+    };
+    
+    admin.messaging().send(message)
+    .then((response) => {
+        // Response is a message ID string.
+        console.log('Successfully sent message:', response);
+    })
+    .catch((error) => {
+        console.log('Error sending message:', error);
+    });
+});
+
+
+//firebase 
+admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount),
+    databaseURL: 'https://fir-test-ceff6.firebaseio.com'
+});
 
 //Batch crawling
 async function handleAsync() {

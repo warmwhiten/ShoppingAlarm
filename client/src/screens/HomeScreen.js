@@ -1,6 +1,8 @@
-import React, {Component} from 'react';
+import React, {useEffect, useState, Component} from 'react';
 import {
-    SafeAreaView, FlatList,
+    ActivityIndicator,
+    SafeAreaView, 
+    FlatList,
     View,
     Text,
     ScrollView,
@@ -9,47 +11,53 @@ import {
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import axios from 'axios';
 
-const DATA = axios.get('http://3.133.45.80:3000/api/items')
-.then(function (response) {
-console.log(response);
- })
-.catch(function (error) {
-console.log(error);
- });
 
-export default class HomeScreen extends Component{
-    render(){
-        return (
-            <SafeAreaView style={styles.container}>
-              <FlatList
-                data={DATA}
-                renderItem={({ item }) => (
-                  <Item
-                    title={item.title}
-                    url={item.url}
-                    isSoldout={item.isSoldout}
-                  />
-                )}
-                keyExtractor={item => item.id}
-                extraData={selected}
-              />
-            </SafeAreaView>
-          );
-    }
-}
+
+export default HomeScreen = () => {
+    const [isLoading, setLoading] = useState(true);
+    const [data, setData] = useState([]);
+  
+    useEffect(() => {
+      axios.get('http://3.133.45.80:3000/api/items')
+        .then(({ data }) => {
+          console.log(data)
+          setData(data)
+        })
+        .catch((error) => console.error(error))
+        .finally(() => setLoading(false));
+    }, []);
+  
+    return (
+      <View style={{ flex: 1, padding: 24 }}>
+        {isLoading ? <ActivityIndicator /> : (
+          <FlatList
+            data={data}
+            keyExtractor={(item, index) => {
+              // console.log("index", index)
+              return index.toString();
+            }}
+            renderItem={({ item }) => {
+              return (
+                  <View style = {styles.container}>
+              <Text style={styles.text}> 판매처 : {item.title}</Text>
+             <Text style={styles.text}>입고시간 : {item.board_date}</Text>
+             <Text style={styles.text}> URL : {item.url}</Text>
+               </View>
+              )
+            }}
+          />
+        )}
+      </View>
+    );
+  };
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        marginTop: Constants.statusBarHeight,
-      },
-      item: {
-        backgroundColor: '#f9c2ff',
-        padding: 20,
-        marginVertical: 8,
-        marginHorizontal: 16,
-      },
-      title: {
-        fontSize: 32,
-      },
+        borderBottomWidth: 0.3,
+        height: 85
+    },
+    text : {
+        textAlignVertical: 'center',
+        fontSize : 15,
+    }
 })
