@@ -1,34 +1,61 @@
-## 프로젝트 설명
+## About the Project
+주요 쇼핑몰의 닌텐도 스위치 입고정보를 크롤링을 이용해 빠르게 제공하는 모바일 앱입니다.
 
-AWS Node.js 서버를 기반(node express사용)으로 한 React-Native 모바일 앱이다. 품절 사태가 4개월 째 계속되고 있는 닌텐도 스위치의 구매정보를 크롤링을 이용하여 빠르게 얻기 위해 위해 본 앱을 제작하게 되었다. 데이터베이스는 MongoDB를 사용하였고, MongoDB에서 제공하는 Atlas(클라우드)서비스를 이용하였다. (nodejs의 mongoose 이용) 크롤링의 경우 Nodejs의 puppeteer를 사용했다. 이는 페이지가 전부 render 된 후에 크롤링이 진행되어야 원하는 데이터를 얻을 수 있는 경우가 많았기 때문이다. 앱에서 로그인 기능을 구현하였는데, 비밀번호 암호화는 Bycrypt를 이용하였고 로그인 유지는 jsonwebtoken을 이용, 서버와의 통신은 axios를 이용하여 rest api를 사용하였다.
+## Build with
+- Node.js
+- ReactNative
+- MongoDB Atlas
+- mongoose
+- node express
+- puppeteer
+- Bcrypt
+- JWT
+- Axios 
+- cookie-parser
+- body-parser
+- node-cron
 
-## 설치방법
+## Installation
 
-1) 안드로이드 기기에 직접 설치하는 경우
-/android/app/build/outputs/apk/debug/app-debug.apk 파일을 안드로이드 기기에 직접 설치할 수 있다. 
+**1) 안드로이드 기기에 직접 설치** 
+'''
+/android/app/build/outputs/apk/debug/app-debug.apk 
+'''
+해당 파일을 안드로이드 기기에 직접 설치하여 실행할 수 있습니다.
 
-2) 컴퓨터에서 실행하는 경우
-컴퓨터에서 실행하는 경우 안드로이드 스튜디오의 AVD (sdk version 28) 를 준비하고(환경 변수 등 설정을 마쳐야한다. 참고 : https://gritkim.tistory.com/5),  client 폴더에서 npm install, react-native run-android 명령을 통해 AVD에 앱을 설치하여 실행한다.
+**2) 컴퓨터 가상 머신에서 실행**
+컴퓨터에서 실행하는 경우 안드로이드 스튜디오의 AVD (sdk version 28) 를 준비하고(환경 변수 등 설정을 마쳐야합니다. (https://gritkim.tistory.com/5) <br>
+'''
+git clone http://khuhub.khu.ac.kr/2018102162/OSSProject_ShoppingAlarm.git
+'''
+'''
+cd client
+npm install
+react-native run-android
+'''
 
-3) ios의 경우
-X-code 설치가 불가능해 로컬에서 ios 환경을 테스트하지 못했다. 안드로이드로 진행하는 것을 추천한다.
+**3) ios**
+X-code 설치가 불가능해 로컬에서 ios 환경을 테스트하지 못했습니다. 안드로이드로 진행하는 것을 추천합니다.
 
-## 사용방법
+## How to use
+
+#### 회원가입
+Join버튼을 눌러 회원가입 페이지로 이동하고, 사용할 아이디와 비밀번호를 입력한 뒤 다시 Join을 눌러 회원가입을 끝내주세요. 
+screenshot
+![./캡처1](./캡처1.png)
+
+#### 로그인
+설정한 아이디와 비밀번호를 입력한 뒤 로그인하고, 홈 화면에서 입고 정보를 확인하세요. 
 
 screenshot
-![screen](./캡처1.png)
-
-screenshot
-![screen](./캡처2png)
-
-앱을 실행하여 join버튼을 눌러 가입을 진행하고, login을 해 home에 진입한다. home에서는 입고 정보를 순차적으로 확인할 수 있다. settings의 logout을 통해 로그아웃이 가능하다.
+![./캡처2](./캡처2png)
 
 
 
 ## License
 MIT License
 
-Copyright (c) [year] [fullname]
+Copyright (c) [2020] [dahee kim]
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -39,7 +66,7 @@ furnished to do so, subject to the following conditions:
 
 The above copyright notice and this permission notice shall be included in all
 copies or substantial portions of the Software.
-
+'''
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
