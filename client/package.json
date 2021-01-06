@@ -13,7 +13,7 @@
     "@react-native-community/cli-platform-android": "^2.9.0",
     "@react-native-community/masked-view": "^0.1.10",
     "@react-navigation/native": "^5.5.1",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "core-util-is": "^1.0.2",
     "express": "^4.17.1",
     "firebase-admin": "^8.12.1",
